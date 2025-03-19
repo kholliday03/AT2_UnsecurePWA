@@ -9,4 +9,4 @@ In the search bar of VS Code, enter "> Python: Create Environment" and select th
 Install the flask library by initialising a terminal (CTRL + `), then entering "pip install flask".
 ## Usage Guide
 Open the main.py file and initialise the program. Then click on one of the given links in the terminal. *(for example: http://127.0.0.1:5000)*
-### **While the PWA has been re-engineered to improve security, there are still significant flaws. Do NOT enter any personal information.** [!WARNING] 
+### **While the PWA has been re-engineered to improve security, there are still significant flaws. Do NOT enter any personal information.**
