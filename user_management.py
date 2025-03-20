@@ -5,7 +5,7 @@ def retrieveUsers(username, password):
     con = sql.connect("database_files/database.db")
     cur = con.cursor()
     user = cur.execute(f"SELECT * FROM users WHERE username = ?", (username,)).fetchone()
-    if user and check_password_hash(user["password"], password) and cur.fetchone() != None:
+    if user and check_password_hash(user["password"], password) and cur.fetchone() != None: # Checking password with hashed password in database
         # Plain text log of visitor count as requested by Unsecure PWA management - no change required.
         with open("visitor_log.txt", "r") as file:
             number = int(file.read().strip())
@@ -15,14 +15,14 @@ def retrieveUsers(username, password):
         con.close()
         return True, user
     con.close()
-    return False, False
+    return False, user
 
 def insertUser(username, password, dob):
     con = sql.connect("database_files/database.db")
     cur = con.cursor()
     cur.execute(
         "INSERT INTO users (username, password, dateOfBirth) VALUES (?,?,?)",
-        (username, generate_password_hash(password), dob)
+        (username, generate_password_hash(password), dob)   # Password hashing solves broken authentication
     )
     con.commit()
     con.close()
