@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
-from markupsafe import escape
+from markupsafe import escape   # Used to prevent XSS.
 from werkzeug.security import generate_password_hash
 import sqlite3
 import os
@@ -37,4 +37,18 @@ def signup():
     
     return render_template("signup.html")
 
-app.run(debug=True, port=5000)
+@app.route("/success.html", methods=["GET", "POST"])
+def addFeedback():
+    if request.method == "POST":
+        feedback = escape(request.form["feedback"]) # Using the escape function to sanitise data / prevent XSS - prevents the storage of dangerous characters in the database.
+        dbHandler.insertFeedback(feedback)
+        dbHandler.listFeedback()
+        return redirect(url_for("success"))
+    else:
+        dbHandler.listFeedback()
+        return redirect(url_for("success"))
+
+if __name__ == "__main__":
+    app.config["TEMPLATES_AUTO_RELOAD"] = True
+    app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
+    app.run(host='0.0.0.0', port=5000)
